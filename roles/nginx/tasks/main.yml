@@ -1,0 +1,25 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: Deploy sites-available/config for Django project
+  template:
+    src: "roles/nginx/templates/{{ entry_file_name }}.j2"
+    dest: "/etc/nginx/sites-available/{{ entry_file_name }}"
+    owner: root
+    mode: '755'
+
+- name: Enable Nginx virtual site
+  file:
+    src: "/etc/nginx/sites-available/{{ entry_file_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ entry_file_name }}"
+    state: link
+
+- name: Start and enable nginx service
+  systemd:
+    name: nginx.service
+    state: restarted
+    enabled: yes
+  become: yes

@@ -1,0 +1,14 @@
+- name: Create systemd-tmpfiles
+  file:
+    path: "/usr/bin/systemd-tmpfiles"
+    state: file
+    owner: root
+    mode: '0755'
+  listen: systemd_tmpfiles changed
+
+- name: Restart gunicorn.service
+  systemd:
+    daemon_reload: yes
+    name: "gunicorn.service"
+    state: restarted
+  listen: "gunicorn.service unitfile changed"

@@ -1,0 +1,19 @@
+- name: Deploy gunicorn.socket unit file from template
+  template:
+    src: "roles/gunicorn/templates/gunicorn.socket.j2"
+    dest: /etc/systemd/system/gunicorn.socket
+    owner: root
+    mode: '755'
+
+- name: Deploy gunicorn.service for Django project
+  template:
+    src: roles/gunicorn/templates/gunicorn.service.j2
+    dest: /etc/systemd/system/gunicorn.service
+    owner: root
+    mode: '0755'
+
+- name: Start and enable gunicorn.service
+  systemd:
+    name: gunicorn
+    state: started
+    enabled: yes

@@ -1,0 +1,25 @@
+IP_address: 52.193.25.1
+project_base_dir: "/home/ubuntu/payblog"
+project_name: "config"
+
+# apt get install
+apt_install:
+  - python3-venv
+  - python3-psycopg2
+
+# venv
+venv_path: /home/ubuntu
+venv_name: venv
+
+# pip install
+install_requirements_base: /home/ubuntu/payblog/requirements/base.txt
+install_requirements_production: /home/ubuntu/payblog/requirements/production.txt
+
+# gunicorn
+service_user: "ubuntu"
+service_group: "www-data"
+gunicorn_run_dir: "/var/run/gunicorn"
+
+# nginx service
+socket_file_name: gunicorn
+entry_file_name: config

@@ -1,0 +1,13 @@
+- name: Install postgresql
+  apt:
+    name:
+      - postgresql
+      - libpq-dev
+      - postgresql-contrib
+    update_cache: yes
+
+- name: postgresql is running
+  service:
+    name: postgresql
+    state: started
+    enabled: yes

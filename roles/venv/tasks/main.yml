@@ -1,0 +1,56 @@
+- name: create venv
+  shell: "python3 -m venv {{ venv_name }}"
+  args:
+    chdir: "{{ venv_path }}"
+  changed_when: False
+  
+- name: git clone payblog
+  git:
+    repo: https://github.com/paypay3/payblog.git
+    dest: "{{ project_base_dir }}"
+  failed_when: False
+
+- name: pip install requirements/base.txt
+  pip:
+    requirements: "{{ install_requirements_base }}"
+    executable: "{{ venv_path }}/venv/bin/pip3"
+
+- name: pip install requirements/production.txt
+  pip:
+    requirements: "{{ install_requirements_production }}"
+    executable: "{{ venv_path }}/venv/bin/pip3"
+
+- name: Place the payblog/.env
+  template:
+    src: roles/venv/templates/.env.j2
+    dest: "{{ project_base_dir }}/.env"
+    owner: root
+    mode: '0755'
+
+- name: Create directory payblog/media
+  file:
+    path: "{{ project_base_dir }}/media"
+    state: directory
+    owner: root
+    mode: '0755'
+
+- name: Authorize all users to the migrations directory
+  file:
+    path: "{{ project_base_dir }}/blog/migrations"
+    owner: root
+    mode: '0777'
+
+- name: makemigrations
+  shell: >
+    cd "{{ venv_path }}";
+    . "{{ venv_name }}/bin/activate";
+    cd "{{project_base_dir}}";
+    python3 manage.py makemigrations;
+    python3 manage.py migrate;
+    deactivate;
+
+- name: python manage.py collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "{{ project_base_dir }}"
+    virtualenv: "{{ venv_path }}/{{ venv_name }}"
