@@ -1,0 +1,5 @@
+- name: gunicorn_restart
+  systemd:
+    name: gunicorn
+    state: restarted
+  become: yes

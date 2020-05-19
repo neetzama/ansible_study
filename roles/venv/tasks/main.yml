@@ -26,6 +26,7 @@
     dest: "{{ project_base_dir }}/.env"
     owner: root
     mode: '0755'
+  notify: gunicorn_restart
 
 - name: Create directory payblog/media
   file:
