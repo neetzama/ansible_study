@@ -33,7 +33,7 @@ But I'm only talking about Ansible here.<br>
     ├── main.yml
     └── private.yml
 ```
-- Use Ansible to automate the middleware and various settings required for the django application
+- Ansible was used to automate the installation and various settings of the middleware required for the django application.
 - The directory structure is as shown above.
 - The details of the resources to be tested are [listed here][2]
 ## Requirement
