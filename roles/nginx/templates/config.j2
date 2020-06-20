@@ -1,10 +1,10 @@
 server {
     listen       80;
-    server_name  {{ IP_address }};
+    server_name  {{ ALB_DNS_NAME }};
 
     location = /favicon.ico {access_log off; log_not_found off;}
     location /static/ {
-            root {{ project_base_dir }}/static/images;
+            proxy_pass https://s3-ap-northeast-1.amazonaws.com/{{DJANGO_AWS_STORAGE_BUCKET_NAME}}/;
     }
 
     location / {
