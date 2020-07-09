@@ -26,14 +26,14 @@
   apt:
     name: "{{ apt_install }}"
 
-# - name: Create "/var/cache/apt/archives/lock" file
-#   file:
-#     path: "/var/cache/apt/archives/lock"
-#     state: touch
-#     mode: '0640'
+- name: Create "/var/cache/apt/archives/lock" file
+  file:
+    path: "/var/cache/apt/archives/lock"
+    state: touch
+    mode: '0640'
 
-# - name: Create "/var/lib/apt/lists/lock" file
-#   file:
-#     path: "/var/lib/apt/lists/lock"
-#     state: touch
-#     mode: '0640'
+- name: Create "/var/lib/apt/lists/lock" file
+  file:
+    path: "/var/lib/apt/lists/lock"
+    state: touch
+    mode: '0640'
