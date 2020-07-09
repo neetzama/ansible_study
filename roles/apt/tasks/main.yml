@@ -8,15 +8,15 @@
     state: absent
     path: "/var/lib/dpkg/lock-frontend"
 
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
 - name: Remove "/var/cache/apt/archives/lock" file
   file:
     state: absent
     path: "/var/cache/apt/archives/lock"
 
-- name: Run the equivalent of "apt-get update" as a separate step
-  apt:
-    update_cache: yes
-    
 - name: Remove "/var/lib/apt/lists/lock" file
   file:
     state: absent
@@ -25,3 +25,15 @@
 - name: apt get install
   apt:
     name: "{{ apt_install }}"
+
+- name: Create "/var/cache/apt/archives/lock" file
+  file:
+    path: "/var/cache/apt/archives/lock"
+    state: touch
+    mode: '0640'
+
+- name: Create "/var/lib/apt/lists/lock" file
+  file:
+    path: "/var/lib/apt/lists/lock"
+    state: touch
+    mode: '0640'
