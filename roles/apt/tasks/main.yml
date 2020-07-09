@@ -1,6 +1,26 @@
+- name: Remove lock file
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock"
+
+- name: Remove lock-frontend file
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock-frontend"
+
+- name: Remove "/var/cache/apt/archives/lock" file
+  file:
+    state: absent
+    path: "/var/cache/apt/archives/lock"
+
 - name: Run the equivalent of "apt-get update" as a separate step
   apt:
     update_cache: yes
+    
+- name: Remove "/var/lib/apt/lists/lock" file
+  file:
+    state: absent
+    path: "/var/lib/apt/lists/lock"
 
 - name: apt get install
   apt:
